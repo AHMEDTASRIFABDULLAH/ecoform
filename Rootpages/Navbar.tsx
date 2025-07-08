@@ -1,8 +1,14 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import favimg from "@/public/favicon.png";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 export default function Navbar() {
+  const pathname = usePathname();
+  const isDashboard = pathname?.startsWith("/dashboard");
+  if (isDashboard) return null;
   return (
     <div className="flex justify-between items-center p-4">
       <Link href={"/"}>

@@ -6,12 +6,10 @@ import { FaRegHandPointRight } from "react-icons/fa";
 export default function Hero() {
   return (
     <div className="pt-20 pb-8 relative overflow-hidden px-4">
-      {/* Decorative Circles - Now Responsive and On-Theme */}
       <div className="absolute top-10 left-5 w-24 h-24 md:w-32 md:h-32 bg-purple-50 rounded-full "></div>
       <div className="absolute top-40 right-5 w-20 h-20 md:w-28 md:h-28 bg-purple-50 rounded-full "></div>
       <div className="absolute top-[13rem] left-40 w-16 h-16 md:w-24 md:h-24 bg-purple-50 rounded-full "></div>
 
-      {/* Hero Content */}
       <h1 className="text-center text-2xl font-bold md:text-4xl xl:text-5xl relative z-10">
         The{" "}
         <span className="relative inline-block">
@@ -23,7 +21,7 @@ export default function Hero() {
             width={240}
             height={40}
           />
-        </span>
+        </span>{" "}
         way to create forms
       </h1>
 

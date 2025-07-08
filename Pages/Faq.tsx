@@ -7,7 +7,7 @@ import {
 
 export default function Faq() {
   return (
-    <section className="max-w-3xl mx-auto px-4 py-16">
+    <section className="max-w-7xl mx-auto px-4 py-16">
       <h2 className="text-4xl font-bold tracking-tight text-center mb-8">
         Frequently Asked Questions
       </h2>
