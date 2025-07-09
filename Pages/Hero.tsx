@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import borderimg from "@/public/text_border.png";
 import Image from "next/image";
+import Link from "next/link";
 import { FaRegHandPointRight } from "react-icons/fa";
 export default function Hero() {
   return (
@@ -24,17 +24,19 @@ export default function Hero() {
         </span>{" "}
         way to create forms
       </h1>
-
       <p className="text-center text-gray-600 mt-6 text-lg md:text-xl font-medium md:font-bold z-10 relative">
         Say goodbye to boring forms. Meet Ecoform — the free,
         <br className="hidden md:block" /> intuitive form builder you’ve been
         looking for.
       </p>
 
-      <div className="flex justify-center items-center mt-10 relative z-10">
-        <Button>
-          Create Now <FaRegHandPointRight />
-        </Button>
+      <div className="flex justify-center cursor-pointer items-center mt-10 relative z-10">
+        <Link className="cursor-pointer" href={"/dashboard"}>
+          {" "}
+          <Button>
+            Create Now <FaRegHandPointRight />
+          </Button>
+        </Link>
       </div>
     </div>
   );

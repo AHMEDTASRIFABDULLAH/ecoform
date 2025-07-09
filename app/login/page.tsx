@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,7 +12,29 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import { handelLogin } from "@/api/fetch.js";
+import { FormEvent } from "react";
+import { useUser } from "@/context/UserContext";
+
 function Login() {
+  const { loginUser } = useUser();
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const email = (
+      form.elements.namedItem("email") as HTMLInputElement
+    )?.value.trim();
+    const password = (form.elements.namedItem("password") as HTMLInputElement)
+      ?.value;
+    try {
+      const data = await handelLogin({ email, password });
+      alert("Login successful");
+      loginUser(data?.user);
+      form.reset();
+    } catch (error: any) {
+      alert("Login failed: " + error.error);
+    }
+  };
   return (
     <div className="flex pt-10 px-4  justify-center items-center">
       <Card className="w-full max-w-sm">
@@ -28,7 +51,7 @@ function Login() {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
@@ -45,14 +68,14 @@ function Login() {
                 </div>
                 <Input id="password" type="password" required />
               </div>
+              <CardFooter className="flex-col gap-2 p-0 w-full">
+                <Button type="submit" className="w-full">
+                  Login
+                </Button>
+              </CardFooter>
             </div>
           </form>
         </CardContent>
-        <CardFooter className="flex-col gap-2">
-          <Button type="submit" className="w-full">
-            Login
-          </Button>
-        </CardFooter>
       </Card>
     </div>
   );

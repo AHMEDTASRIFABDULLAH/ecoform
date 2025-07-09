@@ -5,6 +5,7 @@ import { FaPlus, FaPlusCircle } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
 import { AiOutlineClose } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
+import { useRouter } from "next/navigation";
 
 const questionTypes = [
   "text",
@@ -31,6 +32,7 @@ type FormData = {
 };
 
 export default function DynamicForm() {
+  const router = useRouter();
   const { register, control, handleSubmit, watch } = useForm<FormData>({
     defaultValues: {
       formTitle: "Untitled Form",
@@ -46,7 +48,9 @@ export default function DynamicForm() {
   const questions = watch("questions");
 
   const onSubmit = (data: FormData) => {
-    console.log(data);
+    console.log("Saving form data:", data);
+    localStorage.setItem("saved_form", JSON.stringify(data));
+    router.push("/dashboard/save");
   };
 
   const addQuestion = () => {
@@ -102,7 +106,7 @@ export default function DynamicForm() {
               />
               <select
                 {...register(`questions.${index}.type` as const)}
-                className="w-full bg-gray-50 border border-gray-300 rounded-md p-2 mb-4"
+                className="w-full bg-purple-50 border border-gray-300 rounded-md p-2 mb-4"
               >
                 {questionTypes.map((type) => (
                   <option key={type} value={type}>
