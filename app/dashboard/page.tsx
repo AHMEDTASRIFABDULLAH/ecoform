@@ -1,11 +1,14 @@
 import DynamicForm from "@/Pages/DynamicForm";
+import PrivateRoute from "@/Rootpages/PrivateRoute";
 
 import React from "react";
 
 export default function Dashboard() {
   return (
     <>
-      <DynamicForm />
+      <PrivateRoute>
+        <DynamicForm />
+      </PrivateRoute>
     </>
   );
 }

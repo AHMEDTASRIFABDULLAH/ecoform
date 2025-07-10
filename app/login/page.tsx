@@ -15,9 +15,10 @@ import Link from "next/link";
 import { handelLogin } from "@/api/fetch.js";
 import { FormEvent } from "react";
 import { useUser } from "@/context/UserContext";
-
+import { useRouter } from "next/navigation";
 function Login() {
   const { loginUser } = useUser();
+  const router = useRouter();
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -29,6 +30,7 @@ function Login() {
     try {
       const data = await handelLogin({ email, password });
       alert("Login successful");
+      router.push("/dashboard");
       loginUser(data?.user);
       form.reset();
     } catch (error: any) {
