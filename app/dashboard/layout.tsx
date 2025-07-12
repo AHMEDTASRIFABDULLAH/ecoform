@@ -10,7 +10,6 @@ export default function DashboardLayout({
     <PrivateRoute>
       <div className="flex min-h-screen">
         <SideBar />
-
         <main className="flex-1 bg-[#F0EBF8]">
           <MobileSidebar />
           {children}

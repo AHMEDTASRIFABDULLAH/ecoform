@@ -82,3 +82,24 @@ export const handelDeleteForm = async (id) => {
     throw error.response?.data || { error: error.message };
   }
 };
+export const handelSubmitForm = async (formData) => {
+  try {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/response`,
+      formData
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { error: error.message };
+  }
+};
+export const handelGetResponse = async (email) => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/responses-by-owner/${email}`
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { error: error.message };
+  }
+};

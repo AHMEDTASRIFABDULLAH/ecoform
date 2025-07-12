@@ -6,6 +6,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const UserList = require("./Schema/schema");
 const FormList = require("./Schema/form");
+const Response = require("./Schema/response");
 const bcrypt = require("bcrypt");
 app.use(cors());
 app.use(express.json());
@@ -122,5 +123,42 @@ app.delete("/delete-form/:id", async (req, res) => {
   } catch (error) {
     console.error("Error deleting form:", error);
     res.status(500).json({ error: "Failed to delete form" });
+  }
+});
+app.post("/response", async (req, res) => {
+  try {
+    const newResponse = new Response(req.body);
+    await newResponse.save();
+    res.status(201).json(newResponse);
+  } catch (error) {
+    console.error("Error saving form response:", error);
+    res.status(500).json({
+      message: "Server error.",
+      error: error.message,
+      stack: error.stack,
+    });
+  }
+});
+app.get("/responses-by-owner/:email", async (req, res) => {
+  const { email } = req.params;
+  try {
+    const forms = await FormList.find({ email });
+    if (!forms || forms.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No forms found for this email." });
+    }
+    const formIds = forms.map((form) => form._id.toString());
+    const responses = await Response.find({ formId: { $in: formIds } });
+    res.status(200).json({
+      ownerEmail: email,
+      totalForms: forms.length,
+      totalResponses: responses.length,
+      forms,
+      responses,
+    });
+  } catch (error) {
+    console.error("Error fetching responses:", error);
+    res.status(500).json({ message: "Server error" });
   }
 });

@@ -4,7 +4,7 @@ import "./globals.css";
 import Navbar from "@/Rootpages/Navbar";
 import Footer from "@/Rootpages/Footer";
 import { UserProvider } from "@/context/UserContext";
-
+import { Toaster } from "sonner";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -38,7 +38,11 @@ export default function RootLayout({
       >
         <UserProvider>
           <Navbar />
-          <div className="min-h-screen"> {children}</div>
+          <div className="min-h-screen">
+            {" "}
+            {children}
+            <Toaster position="top-right" />
+          </div>
           <Footer />
         </UserProvider>
       </body>
