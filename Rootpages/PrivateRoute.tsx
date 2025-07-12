@@ -1,7 +1,7 @@
 "use client";
 
 import { useUser } from "@/context/UserContext";
-import Loding from "@/Pages/Loding";
+import Loding from "@/Pages/MyLoding";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 

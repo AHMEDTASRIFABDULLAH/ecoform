@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { handelGetFormsById, handelSubmitForm } from "@/api/fetch";
-import Loding from "@/Pages/Loding";
+import MyLoding from "@/Pages/MyLoding";
 import { useUser } from "@/context/UserContext";
 import { toast } from "sonner";
 
@@ -84,7 +84,7 @@ export default function DetailsForm() {
     }
   };
 
-  if (!form) return <Loding />;
+  if (!form) return <MyLoding />;
 
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4">

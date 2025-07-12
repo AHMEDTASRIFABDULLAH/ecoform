@@ -151,15 +151,17 @@ export default function Cart() {
                       side="bottom"
                       className="w-36"
                     >
-                      <DropdownMenuItem
-                        onClick={() => {
-                          // edit logic here
-                        }}
-                        className="flex items-center gap-2 text-purple-700 hover:text-purple-900"
-                      >
-                        <Pencil className="w-4 h-4" />
-                        Edit
+                      <DropdownMenuItem asChild>
+                        <Link
+                          href={`/dashboard/edit/${template._id}`}
+                          passHref
+                          className="flex items-center gap-2 text-purple-700 hover:text-purple-900"
+                        >
+                          <Pencil className="w-4 h-4" />
+                          Edit
+                        </Link>
                       </DropdownMenuItem>
+
                       <DropdownMenuItem
                         onClick={() => setOpenDialogId(template._id)}
                         className="flex items-center gap-2 text-red-600 hover:text-red-800"

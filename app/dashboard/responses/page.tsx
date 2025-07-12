@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { handelGetResponse } from "@/api/fetch";
 import { useUser } from "@/context/UserContext";
-import { FileText, Users, Mail, Calendar, Eye, EyeOff } from "lucide-react";
+import { FileText, Users, Mail, Eye, EyeOff } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 type AnswerValue = string | string[];
 interface ResponseType {
@@ -84,7 +84,7 @@ export default function AllResponses() {
 
   return (
     <div className="max-w-6xl mx-auto py-10 px-4">
-      <h1 className="text-4xl text-center font-semibold tracking-tight mb-10 text-black">
+      <h1 className="text-3xl sm:text-4xl text-center font-semibold tracking-tight mb-10 text-black">
         Response Dashboard
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">

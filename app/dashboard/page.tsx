@@ -1,7 +1,5 @@
-import SideBar, { MobileSidebar } from "@/Pages/SideBar";
 import PrivateRoute from "@/Rootpages/PrivateRoute";
 import DynamicForm from "@/Pages/DynamicForm";
-
 export default function Dashboard() {
   return (
     <PrivateRoute>

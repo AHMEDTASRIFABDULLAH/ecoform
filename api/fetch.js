@@ -103,3 +103,14 @@ export const handelGetResponse = async (email) => {
     throw error.response?.data || { error: error.message };
   }
 };
+export const handelUpdateForm = async (id, formData) => {
+  try {
+    const response = await axios.put(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/update-form/${id}`,
+      formData
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { error: error.message };
+  }
+};
