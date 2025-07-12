@@ -30,3 +30,55 @@ export const handelLogin = async ({ email, password }) => {
     throw error.response?.data || { error: error.message };
   }
 };
+
+export const handelSaveForm = async (formData) => {
+  try {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/save-form`,
+      formData
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { error: error.message };
+  }
+};
+export const handelGetForms = async () => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/forms`
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { error: error.message };
+  }
+};
+export const handelGetFormsByEmail = async (email) => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/forms/${email}`
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { error: error.message };
+  }
+};
+export const handelGetFormsById = async (id) => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/form/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { error: error.message };
+  }
+};
+export const handelDeleteForm = async (id) => {
+  try {
+    const response = await axios.delete(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/delete-form/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { error: error.message };
+  }
+};

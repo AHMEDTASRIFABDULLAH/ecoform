@@ -6,6 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 import { AiOutlineClose } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 import { useRouter } from "next/navigation";
+import { handelSaveForm } from "@/api/fetch.js";
+import { useUser } from "@/context/UserContext";
 
 const questionTypes = [
   "text",
@@ -33,7 +35,17 @@ type FormData = {
 
 export default function DynamicForm() {
   const router = useRouter();
-  const { register, control, handleSubmit, watch } = useForm<FormData>({
+  const { user } = useUser();
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    setError,
+    clearErrors,
+  } = useForm<FormData>({
     defaultValues: {
       formTitle: "Untitled Form",
       formDescription: "Form description goes here...",
@@ -47,10 +59,38 @@ export default function DynamicForm() {
   });
   const questions = watch("questions");
 
-  const onSubmit = (data: FormData) => {
-    console.log("Saving form data:", data);
-    localStorage.setItem("saved_form", JSON.stringify(data));
-    router.push("/dashboard/save");
+  const validateOptions = (options: string[]) => {
+    return options.every((opt) => opt.trim() !== "");
+  };
+
+  const onSubmit = async (data: FormData) => {
+    // Validate options are all filled for select, radio, checkbox questions
+    for (let i = 0; i < data.questions.length; i++) {
+      const q = data.questions[i];
+      if (["select", "radio", "checkbox"].includes(q.type)) {
+        if (!validateOptions(q.options)) {
+          setError(`questions.${i}.options`, {
+            type: "manual",
+            message: "All options are required and cannot be empty",
+          });
+          return;
+        } else {
+          clearErrors(`questions.${i}.options`);
+        }
+      }
+    }
+
+    try {
+      const formDataWithUser = {
+        ...data,
+        email: user?.email,
+      };
+      await handelSaveForm(formDataWithUser);
+      alert("Form Save successful");
+      router.push("/dashboard/save");
+    } catch (error: any) {
+      alert("Form Save failed: " + error.error);
+    }
   };
 
   const addQuestion = () => {
@@ -67,9 +107,12 @@ export default function DynamicForm() {
     <div className="min-h-screen bg-[#f0ebf8] py-8 px-4">
       <div className="max-w-3xl mx-auto bg-white rounded-md shadow-md p-6 border-t-8 border-purple-600 mb-8">
         <input
-          {...register("formTitle")}
+          {...register("formTitle", { required: "Form title is required" })}
           className="text-3xl font-semibold text-gray-800 w-full border-b border-transparent focus:border-purple-500 outline-none mb-2"
         />
+        {errors.formTitle && (
+          <p className="text-red-600 text-sm">{errors.formTitle.message}</p>
+        )}
         <textarea
           {...register("formDescription")}
           rows={2}
@@ -82,6 +125,7 @@ export default function DynamicForm() {
       >
         {fields.map((field, index) => {
           const currentType = questions?.[index]?.type || "text";
+          const optionsError = errors.questions?.[index]?.options?.message;
           return (
             <div
               key={field.id}
@@ -100,10 +144,17 @@ export default function DynamicForm() {
                 </button>
               </div>
               <input
-                {...register(`questions.${index}.label` as const)}
+                {...register(`questions.${index}.label` as const, {
+                  required: "Question label is required",
+                })}
                 placeholder="Question text"
                 className="w-full border-b border-gray-300 p-2 mb-4 outline-none focus:border-purple-600"
               />
+              {errors.questions?.[index]?.label && (
+                <p className="text-red-600 text-sm mb-2">
+                  {errors.questions[index].label?.message}
+                </p>
+              )}
               <select
                 {...register(`questions.${index}.type` as const)}
                 className="w-full bg-purple-50 border border-gray-300 rounded-md p-2 mb-4"
@@ -133,7 +184,11 @@ export default function DynamicForm() {
                               field.onChange(newOptions);
                             }}
                             placeholder={`Option ${optIndex + 1}`}
-                            className="flex-1 p-2 border border-gray-300 rounded-md"
+                            className={`flex-1 p-2 border rounded-md ${
+                              optionsError && opt.trim() === ""
+                                ? "border-red-600"
+                                : "border-gray-300"
+                            }`}
                           />
                           <button
                             type="button"
@@ -144,11 +199,20 @@ export default function DynamicForm() {
                               field.onChange(newOptions);
                             }}
                             className="text-xl text-red-600 hover:text-red-800"
+                            disabled={field.value.length <= 1}
+                            title={
+                              field.value.length <= 1
+                                ? "At least one option required"
+                                : "Remove option"
+                            }
                           >
                             <AiOutlineClose />
                           </button>
                         </div>
                       ))}
+                      {optionsError && (
+                        <p className="text-red-600 text-xs">{optionsError}</p>
+                      )}
                       <button
                         type="button"
                         onClick={() => field.onChange([...field.value, ""])}

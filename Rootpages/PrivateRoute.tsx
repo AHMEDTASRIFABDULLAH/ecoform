@@ -1,22 +1,27 @@
 "use client";
+
 import { useUser } from "@/context/UserContext";
+import Loding from "@/Pages/Loding";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const { user } = useUser();
+interface PrivateRouteProps {
+  children: React.ReactNode;
+}
+
+const PrivateRoute = ({ children }: PrivateRouteProps) => {
+  const { user, loading } = useUser();
   const router = useRouter();
-
   useEffect(() => {
-    if (!user) {
+    if (!loading && !user) {
       router.push("/login");
     }
-  }, [user]);
+  }, [user, loading]);
 
+  if (loading) return <Loding />;
   if (!user) return null;
 
-  return children;
+  return <>{children}</>;
 };
+
 export default PrivateRoute;

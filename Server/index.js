@@ -5,6 +5,7 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 const UserList = require("./Schema/schema");
+const FormList = require("./Schema/form");
 const bcrypt = require("bcrypt");
 app.use(cors());
 app.use(express.json());
@@ -26,7 +27,6 @@ app.post("/signup", async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const existingUser = await UserList.findOne({ email });
-    console.log(name, email, password);
     if (existingUser) {
       return res.status(400).json({ error: "Email already registered" });
     }
@@ -64,5 +64,63 @@ app.post("/login", async (req, res) => {
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ error: "Server error" });
+  }
+});
+app.post("/save-form", async (req, res) => {
+  try {
+    const formData = req.body;
+    const newForm = new FormList(formData);
+    await newForm.save();
+    res.status(201).json({ message: "Form saved successfully", form: newForm });
+  } catch (error) {
+    console.error("Form saving error:", error);
+    res.status(500).json({ error: "Failed to save form" });
+  }
+});
+app.get("/forms", async (req, res) => {
+  try {
+    const forms = await FormList.find({});
+    res.json(forms);
+  } catch (error) {
+    console.error("Error fetching forms:", error);
+    res.status(500).json({ error: "Failed to fetch forms" });
+  }
+});
+app.get("/forms/:email", async (req, res) => {
+  const { email } = req.params;
+
+  try {
+    const forms = await FormList.find({ email });
+    res.status(200).json(forms);
+  } catch (error) {
+    console.error("Error fetching forms by email:", error);
+    res.status(500).json({ error: "Failed to fetch forms" });
+  }
+});
+
+app.get("/form/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const form = await FormList.findById(id);
+    if (!form) return res.status(404).json({ error: "Form not found" });
+    res.status(200).json(form);
+  } catch (error) {
+    console.error("Error fetching form by id:", error);
+    res.status(500).json({ error: "Failed to fetch form" });
+  }
+});
+app.delete("/delete-form/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await FormList.deleteOne({ _id: id });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ error: "Form not found" });
+    }
+
+    res.status(200).json({ message: "Form deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting form:", error);
+    res.status(500).json({ error: "Failed to delete form" });
   }
 });

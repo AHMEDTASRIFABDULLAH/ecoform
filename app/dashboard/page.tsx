@@ -1,14 +1,13 @@
-import DynamicForm from "@/Pages/DynamicForm";
+import SideBar, { MobileSidebar } from "@/Pages/SideBar";
 import PrivateRoute from "@/Rootpages/PrivateRoute";
-
-import React from "react";
+import DynamicForm from "@/Pages/DynamicForm";
 
 export default function Dashboard() {
   return (
-    <>
-      <PrivateRoute>
+    <PrivateRoute>
+      <div className=" min-h-screen">
         <DynamicForm />
-      </PrivateRoute>
-    </>
+      </div>
+    </PrivateRoute>
   );
 }
