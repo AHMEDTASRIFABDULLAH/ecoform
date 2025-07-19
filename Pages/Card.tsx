@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { AiFillFolder } from "react-icons/ai";
 
 const templates = [
   {
@@ -57,13 +58,16 @@ export default function Cart() {
         {templates.map((template) => (
           <Card
             key={template.id}
-            className="bg-white rounded-xl shadow-md hover:shadow-lg transition duration-300 border border-gray-100"
+            className="bg-white border-t-4 border-t-purple-700 rounded-[30px_10px_30px_10px] shadow-sm hover:shadow-2xl transition transform hover:scale-[1.03] duration-300 p-6"
           >
             <CardContent className="p-5">
-              <h3 className="text-lg font-medium text-gray-800 mb-1">
+              <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-900 mb-2 tracking-wide border-b border-gray-300 pb-2">
+                <AiFillFolder className="text-purple-700" size={20} />
                 {template.title}
               </h3>
-              <p className="text-sm text-gray-600">{template.description}</p>
+              <p className="text-sm text-gray-700 leading-relaxed">
+                {template.description}
+              </p>
             </CardContent>
           </Card>
         ))}

@@ -53,7 +53,7 @@ function Stars({ rating }: { rating: number }) {
         <svg
           key={i}
           className={`w-5 h-5 fill-current ${
-            i < rating ? "text-yellow-400" : "text-gray-300"
+            i < rating ? "text-purple-400" : "text-gray-300"
           }`}
           viewBox="0 0 20 20"
           fill="currentColor"

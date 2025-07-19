@@ -3,7 +3,7 @@ export default function Footer() {
     <footer className=" border-t border-gray-200 py-10 mt-16">
       <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-sm text-gray-600">
         <div>
-          <h2 className="text-lg font-semibold text-gray-800 mb-3">NextForm</h2>
+          <h2 className="text-lg font-semibold text-gray-800 mb-3">Ecoform</h2>
           <p className="text-muted-foreground">
             Build beautiful forms faster. Simple, responsive & smart.
           </p>
@@ -47,13 +47,13 @@ export default function Footer() {
 
         <div>
           <h3 className="font-medium text-gray-800 mb-2">Get in Touch</h3>
-          <p>Email: support@nextform.dev</p>
+          <p>Email: support@ecoform.dev</p>
           <p>Dhaka, Bangladesh</p>
         </div>
       </div>
 
       <div className="mt-10 border-t pt-6 text-center text-xs text-muted-foreground">
-        &copy; {new Date().getFullYear()} NextForm. All rights reserved.
+        &copy; {new Date().getFullYear()} Ecoform. All rights reserved.
       </div>
     </footer>
   );

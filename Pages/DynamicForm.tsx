@@ -8,6 +8,7 @@ import { MdDelete } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { handelSaveForm } from "@/api/fetch.js";
 import { useUser } from "@/context/UserContext";
+import { toast } from "sonner";
 
 const questionTypes = [
   "text",
@@ -64,7 +65,6 @@ export default function DynamicForm() {
   };
 
   const onSubmit = async (data: FormData) => {
-    // Validate options are all filled for select, radio, checkbox questions
     for (let i = 0; i < data.questions.length; i++) {
       const q = data.questions[i];
       if (["select", "radio", "checkbox"].includes(q.type)) {
@@ -86,8 +86,8 @@ export default function DynamicForm() {
         email: user?.email,
       };
       await handelSaveForm(formDataWithUser);
-      alert("Form Save successful");
-      router.push("/dashboard/save");
+      toast.success("Form Save successful");
+      router.push("/dashboard/myform");
     } catch (error: any) {
       alert("Form Save failed: " + error.error);
     }

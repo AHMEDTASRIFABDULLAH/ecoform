@@ -16,6 +16,8 @@ import { handelLogin } from "@/api/fetch.js";
 import { FormEvent } from "react";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { CheckCircle } from "lucide-react";
 function Login() {
   const { loginUser } = useUser();
   const router = useRouter();
@@ -29,7 +31,9 @@ function Login() {
       ?.value;
     try {
       const data = await handelLogin({ email, password });
-      alert("Login successful");
+      toast.success("Login successful", {
+        icon: <CheckCircle color="green" size={20} />,
+      });
       router.push("/dashboard");
       loginUser(data?.user);
       form.reset();

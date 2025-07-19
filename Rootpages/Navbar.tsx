@@ -11,7 +11,7 @@ export default function Navbar() {
   const isDashboard = pathname?.startsWith("/dashboard");
   if (isDashboard) return null;
   return (
-    <div className="flex justify-between items-center p-4">
+    <div className="flex sticky sm:static top-0 justify-between items-center p-4 backdrop-blur-xl md:backdrop-blur-0 z-10">
       <Link href={"/"}>
         <div className="flex items-center justify-center gap-1">
           <Image src={favimg} alt="Logo" width={40} height={40} />

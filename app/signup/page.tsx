@@ -13,12 +13,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { handelSignup } from "@/api/fetch.js";
-
 import Link from "next/link";
-import { useUser } from "@/context/UserContext";
+import { toast } from "sonner";
+import { CheckCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 function SignUp() {
-  const { loginUser } = useUser();
+  const router = useRouter();
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -33,7 +34,10 @@ function SignUp() {
 
     try {
       const data = await handelSignup({ name, email, password });
-      alert("Signup successful");
+      toast.success("Signup successful", {
+        icon: <CheckCircle color="green" size={20} />,
+      });
+      router.push("/login");
       form.reset();
     } catch (error: any) {
       alert("Signup failed: " + error.error);

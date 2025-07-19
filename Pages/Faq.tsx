@@ -14,9 +14,9 @@ export default function Faq() {
 
       <Accordion type="single" collapsible className="w-full space-y-2">
         <AccordionItem value="item-1">
-          <AccordionTrigger>What is NextForm?</AccordionTrigger>
+          <AccordionTrigger>What is Ecoform?</AccordionTrigger>
           <AccordionContent>
-            NextForm is a modern, easy-to-use form builder that helps you create
+            Ecoform is a modern, easy-to-use form builder that helps you create
             forms for surveys, registrations, contact, and more — all without
             writing code.
           </AccordionContent>
